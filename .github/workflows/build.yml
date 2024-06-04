@@ -33,7 +33,7 @@ jobs:
            
    - name: Build Image
      run: |
-       docker build -t arize-api.
+       docker build arize-api .
        docker tag arize-api:latest public.ecr.aws/d2h1x8o0/arize-api:v1
        docker push public.ecr.aws/d2h1x8o0/arize-api:v1
    needs:
