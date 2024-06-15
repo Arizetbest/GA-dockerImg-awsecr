@@ -28,7 +28,7 @@ jobs:
    - name: Login to AWSECR
      uses: docker/login-action@v3
      with:
-       registry: docker push 846265175058.dkr.ecr.us-east-1.amazonaws.coms
+       registry: docker push 846265175058.dkr.ecr.us-east-1.amazonaws.com/arize-api:latest
        username: ${{secrets.ACCESS_KEY}}
        password: ${{secrets.SECRET_ACCESS_KEY}}
      env:
