@@ -1,0 +1,42 @@
+name: Build and Push Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Change to the desired Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push Docker image
+        env:
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_URI }}
+        run: |
+          # Build Docker image
+          docker build -t my-app .
+          
+          # Tag the image with the ECR repository URI
+          docker tag my-app:latest $ECR_REPOSITORY:latest
+
+          # Push the image to ECR
+          docker push $ECR_REPOSITORY:latest
